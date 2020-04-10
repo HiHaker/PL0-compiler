@@ -1,0 +1,18 @@
+// PL/0 语法示例程序
+
+(*
+    计算1～10的阶乘
+    多行注释
+*)
+
+var n, f;
+begin
+     n := 0;
+     f := 1;
+     while n # 10 do
+     begin
+          n := n + 1;
+          f := f * n;
+     end;
+     call print;// 用于输出结果，假设预先声明
+end.
