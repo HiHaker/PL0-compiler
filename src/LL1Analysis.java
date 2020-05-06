@@ -276,17 +276,9 @@ public class LL1Analysis {
             }
         }
 
-        System.out.println("FOLLOW集为: ");
-
         for (String character : nonEndChars){
-            Set<String> follow = FOLLOWx(character);
-            System.out.println("FOLLOW(" + character + "): { ");
-            for (String value : follow){
-                System.out.print(value + " ");
-            }
-            System.out.println(" }");
+            FOLLOWx(character);
         }
-
     }
 
     // 递归地计算非终结符的FOLLOW集合
@@ -338,6 +330,15 @@ public class LL1Analysis {
                                     break;
                                 }
                             }
+                        }
+                        // 如果在最右边，将FOLLOW（左部）加入到当前非终结符的FOLLOW集合
+                        else{
+                            // 首先判断当前的非终结符和左部是否相等，如果相等，break
+                            if (character.equals(x)){
+                                break;
+                            }
+                            Set<String> leftFOLLOW = FOLLOWx(character);
+                            addCharsToFOLLOW(leftFOLLOW, x);
                         }
                     }
                 }
@@ -431,19 +432,30 @@ public class LL1Analysis {
 
     public static void main(String[] args) {
         // 非终结符集合
-        String[] Vn = {"S", "S\'", "B", "A"};
+//        String[] Vn = {"S", "S\'", "B", "A"};
+        String[] Vn = {"C", "B", "E", "S", "D"};
+
         // 终结符集合
         // 这里定义空串为 NULL
-        String[] Vt = {"a", "b", "e", "NULL"};
+//        String[] Vt = {"a", "b", "e", "NULL"};
+        String[] Vt = {"i", "t", "e", "NULL", "a", "b", "+", "*"};
+
         // 预定义产生式规则集合P
+//        String[] P = {
+//                "S->aBS\'",
+//                "S\'->bBS\'|NULL",
+//                "B->Ab|e",
+//                "A->a|NULL"
+//        };
         String[] P = {
-                "S->aBS\'",
-                "S\'->bBS\'|NULL",
-                "B->Ab|e",
-                "A->a|NULL"
+                "C->iEtSB",
+                "B->NULL|eS",
+                "E->a|b",
+                "S->aD",
+                "D->+b|*b"
         };
         // 开始符号
-        String S = "S";
+        String S = "C";
 
         LL1Analysis myLL1 = new LL1Analysis(Vn, Vt, P, S);
         // 打印出文法
@@ -462,6 +474,17 @@ public class LL1Analysis {
         }
 
         System.out.println();
+        System.out.println("FOLLOW集为：");
+
+        Map<String, Set<String>> FOLLOW = myLL1.getFOLLOW();
+        for (String character : Vn){
+            Set<String> follow = FOLLOW.get(character);
+            System.out.println("FOLLOW(" + character + "): { ");
+            for (String value : follow){
+                System.out.print(value + " ");
+            }
+            System.out.println(" }");
+        }
 
         System.out.println();
         System.out.println("SELECT集为: ");
