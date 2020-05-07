@@ -7,14 +7,7 @@ import java.util.*;
  */
 public class LL1Analysis {
 
-    // 存储文法的映射（产生式规则集合）
-    private Map<String, String[]> P;
-    // 文法的开始符号
-    private String start;
-    // 非终结符号集
-    private Set<String> nonEndChars;
-    // 终结符号集
-    private Set<String> endChars;
+    private Grammar grammar;
 
     // FIRST集合
     private Map<String, Set<String>> FIRST;
@@ -41,89 +34,22 @@ public class LL1Analysis {
         // 开始符号
         String S = "E";
 
-        storeGrammar(Vn, Vt, P, S);
-        preProcess();
+        this.grammar = new Grammar(Vn, Vt, P, S);
+        grammar.printGrammar();
+
+        // 开始分析
+        analysis();
     }
 
-    public LL1Analysis(String[] Vn, String[] Vt, String[] P, String start){
-        storeGrammar(Vn, Vt, P, start);
-        preProcess();
-    }
-
-    // 存储文法
-    private void storeGrammar(String[] Vn, String[] Vt, String[] P, String start){
-
-        this.nonEndChars = new HashSet<>();
-        this.endChars = new HashSet<>();
-        this.start = start;
-        this.P = new HashMap<>();
-
-        try{
-            // 存储产生式
-            for (String value : P) {
-                // 分割左部、右部
-                String[] split1 = value.split("->");
-                // 分割右部的不同产生式
-                String[] split2 = split1[1].split("\\|");
-                this.P.put(split1[0], split2);
-            }
-
-            // 存储符号集
-            Collections.addAll(nonEndChars, Vn);
-            Collections.addAll(endChars, Vt);
-        } catch (Exception e){
-            System.out.println("输入文法有错误!");
-            e.printStackTrace();
-        }
-    }
-
-    // 打印文法
-    public void printGrammar(){
-
-        System.out.println("此文法的非终结符号集为: ");
-        System.out.print("{ ");
-        for (String value : nonEndChars){
-            System.out.print(value + " ");
-        }
-        System.out.print("}");
-
-        System.out.println();
-
-        System.out.println("此文法的终结符号集为: ");
-        System.out.print("{ ");
-        for (String value : endChars){
-            System.out.print(value + " ");
-        }
-        System.out.print("}");
-
-        System.out.println();
-
-        System.out.println("此文法的产生式规则集为: ");
-        System.out.println("{ ");
-        // 需要遍历map
-        for (Map.Entry<String, String[]> entry : P.entrySet()){
-            String leftItem = entry.getKey();
-            String[] rightItems = entry.getValue();
-            System.out.print("  " + leftItem + " -> ");
-            for (int i=0; i<rightItems.length; i++){
-                if (i == rightItems.length - 1){
-                    System.out.print(rightItems[i]);
-                } else {
-                    System.out.print(rightItems[i] + " | ");
-                }
-            }
-            System.out.println();
-        }
-        System.out.print("}");
-
-        System.out.println();
-
-        System.out.println("此文法的开始符号为: ");
-        System.out.println(start);
+    public LL1Analysis(Grammar grammar){
+        this.grammar = grammar;
+        // 打印出文法
+        grammar.printGrammar();
+        analysis();
     }
 
     // 预处理
-    private void preProcess(){
+    private void analysis(){
         calculateFIRST();
         calculateFOLLOW();
         calculateSELECT();
@@ -135,39 +61,17 @@ public class LL1Analysis {
         FIRST = new HashMap<>();
 
         // 终结符号的FIRST集合就是它本身
-        for (String value : endChars){
+        for (String value : grammar.getEndChars()){
             Set<String> first = new HashSet<>();
             first.add(value);
             FIRST.put(value, first);
         }
 
         // 对于每个非终结符
-        for (String value : nonEndChars){
+        for (String value : grammar.getNonEndChars()){
             FIRST.put(value, FIRSTx(value));
         }
 
-    }
-
-    // 将字符串中的符号拆开
-    private List<String> disassemble(String value){
-        char c;
-        List<String> cList = new ArrayList<>();
-
-        // 将右部分解为一个个的符号
-        for (int i=0; i<value.length(); i++){
-            if (value.equals("NULL")){
-                cList.add(value);
-                break;
-            }
-            if (i+1<value.length() && value.charAt(i+1) == '\''){
-                cList.add(value.substring(i, i+2));
-                i+=1;
-            } else {
-                cList.add(value.substring(i, i+1));
-            }
-        }
-
-        return cList;
     }
 
     // 递归地计算某符号的FIRST
@@ -177,15 +81,15 @@ public class LL1Analysis {
 
         // 如果x是终结符，FIRST集就是它本身
         // 这里，空串也包含在终结符号里
-        if (endChars.contains(x)){
+        if (grammar.getEndChars().contains(x)){
             first.add(x);
             return first;
         } else {
             // 否则，就等于其右部各个符号的FIRST集相加
-            String[] rightItems = P.get(x);
+            String[] rightItems = grammar.getP().get(x);
             // 遍历每一个右部
             for (String value : rightItems){
-                List<String> cList = disassemble(value);
+                List<String> cList = grammar.disassemble(value);
 
                 // 如果右部的产生式是单个符号的，就直接加入到first集合
                 if (cList.size() == 1){
@@ -195,7 +99,7 @@ public class LL1Analysis {
                     for (int i=0; i<cList.size(); i++){
                         String character = cList.get(i);
                         // 如果是终结符，直接把它加入first集合
-                        if (endChars.contains(character)){
+                        if (grammar.getEndChars().contains(character)){
                             first.add(character);
                             break;
                         } else {
@@ -261,22 +165,22 @@ public class LL1Analysis {
         // 首先在开始符号的FOLLOW集中加入界符
         Set<String> startFollow = new HashSet<>();
         startFollow.add("#");
-        FOLLOW.put(start, startFollow);
+        FOLLOW.put(grammar.getStart(), startFollow);
 
-        for (String character : nonEndChars) {
-            String[] rightItems = P.get(character);
+        for (String character : grammar.getNonEndChars()) {
+            String[] rightItems = grammar.getP().get(character);
             for (String item : rightItems) {
                 // 获取符号列表
-                List<String> cList = disassemble(item);
+                List<String> cList = grammar.disassemble(item);
                 String rightChar = cList.get(cList.size() - 1);
                 // 如果最右的符号是非终结符，就要把界符加入到其FOLLOW集
-                if (nonEndChars.contains(rightChar)) {
+                if (grammar.getNonEndChars().contains(rightChar)) {
                     addCharToFOLLOW("#", rightChar);
                 }
             }
         }
 
-        for (String character : nonEndChars){
+        for (String character : grammar.getNonEndChars()){
             FOLLOWx(character);
         }
     }
@@ -284,12 +188,12 @@ public class LL1Analysis {
     // 递归地计算非终结符的FOLLOW集合
     private Set<String> FOLLOWx(String x){
         // 在产生式中搜索所有非终结符出现的位置
-        for (String character : nonEndChars){
-            String[] rightItems = P.get(character);
+        for (String character : grammar.getNonEndChars()){
+            String[] rightItems = grammar.getP().get(character);
 
             for (String item : rightItems){
                 // 获取符号列表
-                List<String> cList = disassemble(item);
+                List<String> cList = grammar.disassemble(item);
 
                 // 接下来，搜索当前查找的非终结符的位置
                 for (int i=0; i<cList.size(); i++){
@@ -301,7 +205,7 @@ public class LL1Analysis {
                             // 下面循环判断后一个符号是否是非终结符
                             for (int j=i+1; j<cList.size(); j++){
                                 String nextChar = cList.get(j);
-                                if (nonEndChars.contains(nextChar)){
+                                if (grammar.getNonEndChars().contains(nextChar)){
                                     // 如果是非终结符，查看其FIRST集是否包含空串
                                     Set<String> nextFirst = FIRST.get(nextChar);
                                     // 如果包含空串，并且此时这个符号是最后一个符号
@@ -360,7 +264,7 @@ public class LL1Analysis {
         SELECT = new HashMap<>();
 
         // 遍历产生式
-        for (Map.Entry<String, String[]> entry : P.entrySet()){
+        for (Map.Entry<String, String[]> entry : grammar.getP().entrySet()){
             String leftItem = entry.getKey();
             String[] rightItems = entry.getValue();
 
@@ -368,7 +272,7 @@ public class LL1Analysis {
             for (String item : rightItems){
                 situation = false;
                 // 分解串为符号
-                List<String> characters = disassemble(item);
+                List<String> characters = grammar.disassemble(item);
 
                 Set<String> first = new HashSet<>();
 
@@ -468,9 +372,9 @@ public class LL1Analysis {
         // 开始符号
         String S = "C";
 
-        LL1Analysis myLL1 = new LL1Analysis(Vn, Vt, P, S);
-        // 打印出文法
-        myLL1.printGrammar();
+        Grammar grammar = new Grammar(Vn, Vt, P, S);
+
+        LL1Analysis myLL1 = new LL1Analysis(grammar);
 
         System.out.println();
         System.out.println("FIRST集为: ");
