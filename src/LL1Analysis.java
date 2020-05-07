@@ -413,16 +413,27 @@ public class LL1Analysis {
     public boolean isLL1(){
 
         boolean isIntersect = false;
-        List<Set<String>> cList = new ArrayList<>(SELECT.values());
 
-        outer:for (int i=0; i<cList.size(); i++){
-            Set<String> set1 = cList.get(i);
-            for (int j=i+1; j<cList.size(); j++){
-                Set<String> set2 = cList.get(j);
-                if (set1.retainAll(set2)){
-                    break outer;
-                } else{
-                    set1 = cList.get(i);
+        outer:for (String P1 : SELECT.keySet()){
+
+            String left1 = P1.substring(0,1);
+            Set<String> set1 = SELECT.get(P1);
+            Set<String> leftKeySet = new HashSet<>(SELECT.keySet());
+            leftKeySet.remove(P1);
+
+            for (String P2 : leftKeySet){
+                String left2 = P2.substring(0,1);
+                // 如果两条产生式的左部相等的话
+                if (left1.equals(left2)){
+                    Set<String> set2 = SELECT.get(P2);
+                    // 判断是否相交
+                    if (set1.retainAll(set2)){
+                        isIntersect = true;
+                        break outer;
+                    }
+                    else{
+                        set1 = SELECT.get(P1);
+                    }
                 }
             }
         }
