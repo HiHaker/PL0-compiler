@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cbcdc363-c53c-4075-935e-d6b10cb157fb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Grammar.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/OPAnalysis.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LL1Analysis.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LL1Analysis.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/OPAnalysis.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/OPAnalysis.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -127,7 +125,8 @@
       <workItem from="1588728127316" duration="696000" />
       <workItem from="1588761263811" duration="2770000" />
       <workItem from="1588836259965" duration="2753000" />
-      <workItem from="1588851336251" duration="11393000" />
+      <workItem from="1588851336251" duration="12213000" />
+      <workItem from="1588905100123" duration="5389000" />
     </task>
     <task id="LOCAL-00001" summary="FIRST集,FOLLOW集,SELECT集以及LL1文法判别器">
       <created>1588080848891</created>
@@ -150,7 +149,14 @@
       <option name="project" value="LOCAL" />
       <updated>1588838164803</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="算符优先文法的判断并优化了代码结构">
+      <created>1588862830838</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1588862830838</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -161,7 +167,8 @@
     <MESSAGE value="FIRST集,FOLLOW集,SELECT集以及LL1文法判别器" />
     <MESSAGE value="修改了计算FOLLOW集的错误" />
     <MESSAGE value="修改了判断LL1文法的错误" />
-    <option name="LAST_COMMIT_MESSAGE" value="修改了判断LL1文法的错误" />
+    <MESSAGE value="算符优先文法的判断并优化了代码结构" />
+    <option name="LAST_COMMIT_MESSAGE" value="算符优先文法的判断并优化了代码结构" />
   </component>
   <component name="WindowStateProjectService">
     <state x="552" y="178" key="#Project_Structure" timestamp="1586480925671">
@@ -180,54 +187,54 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="765" y="236" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1588860723039" />
-    <state x="560" y="110" key="CommitChangelistDialog2" timestamp="1588838163180">
+    <state x="560" y="110" key="CommitChangelistDialog2" timestamp="1588862829674">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="560" y="110" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1588838163180" />
-    <state width="1877" height="139" key="GridCell.Tab.0.bottom" timestamp="1588861922246">
+    <state x="560" y="110" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1588862829674" />
+    <state width="1877" height="236" key="GridCell.Tab.0.bottom" timestamp="1588910749324">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="139" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1588861922246" />
-    <state width="1877" height="139" key="GridCell.Tab.0.center" timestamp="1588861922246">
+    <state width="1877" height="236" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1588910749324" />
+    <state width="1877" height="236" key="GridCell.Tab.0.center" timestamp="1588910749324">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="139" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1588861922246" />
-    <state width="1877" height="139" key="GridCell.Tab.0.left" timestamp="1588861922246">
+    <state width="1877" height="236" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1588910749324" />
+    <state width="1877" height="236" key="GridCell.Tab.0.left" timestamp="1588910749324">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="139" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1588861922246" />
-    <state width="1877" height="139" key="GridCell.Tab.0.right" timestamp="1588861922246">
+    <state width="1877" height="236" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1588910749324" />
+    <state width="1877" height="236" key="GridCell.Tab.0.right" timestamp="1588910749324">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="139" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1588861922246" />
-    <state width="1877" height="303" key="GridCell.Tab.1.bottom" timestamp="1588764229196">
+    <state width="1877" height="236" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1588910749324" />
+    <state width="1877" height="255" key="GridCell.Tab.1.bottom" timestamp="1588908569334">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="303" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1588764229196" />
-    <state width="1877" height="303" key="GridCell.Tab.1.center" timestamp="1588764229196">
+    <state width="1877" height="255" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1588908569334" />
+    <state width="1877" height="255" key="GridCell.Tab.1.center" timestamp="1588908569334">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="303" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1588764229196" />
-    <state width="1877" height="303" key="GridCell.Tab.1.left" timestamp="1588764229195">
+    <state width="1877" height="255" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1588908569334" />
+    <state width="1877" height="255" key="GridCell.Tab.1.left" timestamp="1588908569334">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="303" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1588764229195" />
-    <state width="1877" height="303" key="GridCell.Tab.1.right" timestamp="1588764229196">
+    <state width="1877" height="255" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1588908569334" />
+    <state width="1877" height="255" key="GridCell.Tab.1.right" timestamp="1588908569334">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="303" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1588764229196" />
+    <state width="1877" height="255" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1588908569334" />
     <state x="461" y="162" key="SettingsEditor" timestamp="1587956364409">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="461" y="162" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1587956364409" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1588838176312">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1588865213415">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1588838176312" />
-    <state x="640" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1588851451915">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1588865213415" />
+    <state x="640" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1588905177021">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="640" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1588851451915" />
+    <state x="640" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1588905177021" />
     <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1588837897046">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

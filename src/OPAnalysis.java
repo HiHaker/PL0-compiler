@@ -17,19 +17,19 @@ public class OPAnalysis {
     private String[][] matrix;
     // 存储终结符号对应矩阵的下标
     private Map<String, Integer> index;
+    // 是否是算符优先文法
+    private boolean isOPGrammar;
 
     public OPAnalysis(){
         // 非终结符集合
-        String[] Vn = {"E", "E\'", "T", "T\'", "F"};
+        String[] Vn = {"E", "T", "F"};
         // 终结符集合
         // 这里定义空串为 NULL
-        String[] Vt = {"+", "NULL", "*", "(", ")", "i"};
+        String[] Vt = {"+", "*", "(", ")", "i"};
         // 预定义产生式规则集合P
         String[] P = {
-                "E->TE\'",
-                "E\'->+TE\'|NULL",
-                "T->FT\'",
-                "T\'->*FT\'|NULL",
+                "E->E+T|T",
+                "T->T*F|F",
                 "F->(E)|i"
         };
         // 开始符号
@@ -92,7 +92,7 @@ public class OPAnalysis {
             }
         }
 
-        return flag;
+        return !flag;
     }
 
     /**
@@ -112,9 +112,10 @@ public class OPAnalysis {
                 List<String> characters = grammar.disassemble(item);
                 // 遍历每一个符号
                 for (String character : characters){
-                    if (character.equals("NULL"));
-                    flag = true;
-                    break outer;
+                    if (character.equals("NULL")){
+                        flag = true;
+                        break outer;
+                    }
                 }
             }
         }
@@ -310,7 +311,7 @@ public class OPAnalysis {
      * 填充算符优先关系矩阵并判断文法是否是算符优先文法
      * @return
      */
-    public boolean isOPGrammar(){
+    private boolean isOPGrammar(){
 
         // 初始化算符优先关系矩阵
         for (int i=0; i<matrix.length; i++){
@@ -348,6 +349,12 @@ public class OPAnalysis {
                                 return false;
                             }
                         }
+                        // 处理等号的情况
+                        if (i+2 <characters.size()){
+                            int row = index.get(character);
+                            int column = index.get(characters.get(i+2));
+                            matrix[row][column] = "=";
+                        }
                     }
                 }
             }
@@ -356,11 +363,103 @@ public class OPAnalysis {
         return true;
     }
 
+    /**
+     * 分析函数
+     */
+    public void analysis(){
+        if (isOperatorG() && !isContainsNULLP()){
+
+            calculateFIRSTVT();
+            calculateLASTVT();
+
+            if (isOPGrammar()){
+                isOPGrammar = true;
+            }
+            else{
+                isOPGrammar = false;
+            }
+        }
+        else{
+            isOPGrammar = false;
+        }
+    }
+
     public static void main(String[] args) {
-//        OPAnalysis opa = new OPAnalysis();
-//        Map<String, Integer> index = opa.index;
-//        for (Map.Entry<String, Integer> entry : index.entrySet()){
-//            System.out.println(entry.getKey() + ": " + entry.getValue());
-//        }
+
+        // 非终结符集合
+        String[] Vn = {"M", "N"};
+        // 终结符集合
+        // 这里定义空串为 NULL
+        String[] Vt = {"a", "b", "(", ")", ","};
+        // 预定义产生式规则集合P
+        String[] P = {
+                "M->a|b|(N)",
+                "N->N,M|M"
+        };
+        // 开始符号
+        String S = "M";
+
+        Grammar grammar = new Grammar(Vn, Vt, P, S);
+
+        OPAnalysis opa = new OPAnalysis(grammar);
+        opa.analysis();
+
+        System.out.println();
+        System.out.println("该文法是算符优先文法吗？");
+        System.out.println(opa.isOPGrammar);
+
+        if (!opa.isOPGrammar){
+            return;
+        }
+
+        System.out.println();
+        System.out.println("FIRSTVT集为：");
+
+        Map<String, Set<String>> FIRSTVT = opa.FIRSTVT;
+        for (String character : opa.grammar.getNonEndChars()){
+            Set<String> firstvt = FIRSTVT.get(character);
+            System.out.println("FIRSTVT(" + character + "): { ");
+            for (String value : firstvt){
+                System.out.print(value + " ");
+            }
+            System.out.println(" }");
+        }
+
+        System.out.println();
+        System.out.println("LASTVT集为：");
+
+        Map<String, Set<String>> LASTVT = opa.LASTVT;
+        for (String character : opa.grammar.getNonEndChars()){
+            Set<String> lastvt = LASTVT.get(character);
+            System.out.println("LASTVT(" + character + "): { ");
+            for (String value : lastvt){
+                System.out.print(value + " ");
+            }
+            System.out.println(" }");
+        }
+
+        System.out.println();
+        System.out.println("其算符优先矩阵如下：");
+
+        System.out.print(" ");
+        for (int i=0; i<opa.matrix.length; i++){
+            for (Map.Entry<String, Integer> entry : opa.index.entrySet()){
+                if (entry.getValue() == i){
+                    System.out.printf("%2s", entry.getKey());
+                }
+            }
+        }
+        System.out.println();
+        for (int i=0; i<opa.matrix.length; i++){
+            for (Map.Entry<String, Integer> entry : opa.index.entrySet()){
+                if (entry.getValue() == i){
+                    System.out.print(entry.getKey());
+                }
+            }
+            for (int j=0; j<opa.matrix.length; j++){
+                System.out.printf("%2s",opa.matrix[i][j]);
+            }
+            System.out.println();
+        }
     }
 }
