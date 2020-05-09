@@ -129,7 +129,8 @@
       <workItem from="1588905100123" duration="5706000" />
       <workItem from="1588989624301" duration="600000" />
       <workItem from="1589024172228" duration="2792000" />
-      <workItem from="1589027163614" duration="443000" />
+      <workItem from="1589027163614" duration="511000" />
+      <workItem from="1589035900395" duration="2298000" />
     </task>
     <task id="LOCAL-00001" summary="FIRST集,FOLLOW集,SELECT集以及LL1文法判别器">
       <created>1588080848891</created>
@@ -166,7 +167,14 @@
       <option name="project" value="LOCAL" />
       <updated>1588910783416</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="修复了LL1文法分析的死循环错误">
+      <created>1589027656829</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1589027656830</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -179,7 +187,8 @@
     <MESSAGE value="修改了判断LL1文法的错误" />
     <MESSAGE value="算符优先文法的判断并优化了代码结构" />
     <MESSAGE value="完善了算符优先文法的判断" />
-    <option name="LAST_COMMIT_MESSAGE" value="完善了算符优先文法的判断" />
+    <MESSAGE value="修复了LL1文法分析的死循环错误" />
+    <option name="LAST_COMMIT_MESSAGE" value="修复了LL1文法分析的死循环错误" />
   </component>
   <component name="WindowStateProjectService">
     <state x="552" y="178" key="#Project_Structure" timestamp="1586480925671">
@@ -198,68 +207,64 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="765" y="236" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1588860723039" />
-    <state x="560" y="110" key="CommitChangelistDialog2" timestamp="1588910782094">
+    <state x="560" y="110" key="CommitChangelistDialog2" timestamp="1589027654880">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="560" y="110" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1588910782094" />
-    <state width="1877" height="261" key="GridCell.Tab.0.bottom" timestamp="1589027519288">
+    <state x="560" y="110" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1589027654880" />
+    <state width="1877" height="464" key="GridCell.Tab.0.bottom" timestamp="1589038306408">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="261" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1589027519288" />
-    <state width="1877" height="261" key="GridCell.Tab.0.center" timestamp="1589027519288">
+    <state width="1877" height="464" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1589038306408" />
+    <state width="1877" height="464" key="GridCell.Tab.0.center" timestamp="1589038306408">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="261" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1589027519288" />
-    <state width="1877" height="261" key="GridCell.Tab.0.left" timestamp="1589027519288">
+    <state width="1877" height="464" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1589038306408" />
+    <state width="1877" height="464" key="GridCell.Tab.0.left" timestamp="1589038306408">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="261" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1589027519288" />
-    <state width="1877" height="261" key="GridCell.Tab.0.right" timestamp="1589027519288">
+    <state width="1877" height="464" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1589038306408" />
+    <state width="1877" height="464" key="GridCell.Tab.0.right" timestamp="1589038306408">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="261" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1589027519288" />
-    <state width="1877" height="206" key="GridCell.Tab.1.bottom" timestamp="1589027487883">
+    <state width="1877" height="464" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1589038306408" />
+    <state width="1877" height="155" key="GridCell.Tab.1.bottom" timestamp="1589037618062">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="206" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1589027487883" />
-    <state width="1877" height="206" key="GridCell.Tab.1.center" timestamp="1589027487883">
+    <state width="1877" height="155" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1589037618062" />
+    <state width="1877" height="155" key="GridCell.Tab.1.center" timestamp="1589037618062">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="206" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1589027487883" />
-    <state width="1877" height="206" key="GridCell.Tab.1.left" timestamp="1589027487883">
+    <state width="1877" height="155" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1589037618062" />
+    <state width="1877" height="155" key="GridCell.Tab.1.left" timestamp="1589037618062">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="206" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1589027487883" />
-    <state width="1877" height="206" key="GridCell.Tab.1.right" timestamp="1589027487883">
+    <state width="1877" height="155" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1589037618062" />
+    <state width="1877" height="155" key="GridCell.Tab.1.right" timestamp="1589037618062">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="206" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1589027487883" />
+    <state width="1877" height="155" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1589037618062" />
     <state x="461" y="162" key="SettingsEditor" timestamp="1587956364409">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="461" y="162" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1587956364409" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1588910788891">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1589027663193">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1588910788891" />
-    <state x="640" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1589027166133">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1589027663193" />
+    <state x="640" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1589036579539">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="640" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1589027166133" />
+    <state x="640" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1589036579539" />
     <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1588837897046">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1588837897046" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/LL1Analysis.java</url>
-          <line>200</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="((LL1Analysis)this).FOLLOW" custom="LL1Analysis" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>
