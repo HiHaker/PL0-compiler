@@ -16,6 +16,9 @@ public class LL1Analysis {
     // SELECT集合
     private Map<String, Set<String>> SELECT;
 
+    // 存储在查找FOLLOW集合时非终结符的状态
+    private Map<String, Integer> status;
+
     public LL1Analysis(){
 
         // 非终结符集合
@@ -161,6 +164,8 @@ public class LL1Analysis {
     // 计算FOLLOW集合
     private void calculateFOLLOW(){
 
+        status = new HashMap<>();
+
         FOLLOW = new HashMap<>();
         // 首先在开始符号的FOLLOW集中加入界符
         Set<String> startFollow = new HashSet<>();
@@ -168,6 +173,13 @@ public class LL1Analysis {
         FOLLOW.put(grammar.getStart(), startFollow);
 
         for (String character : grammar.getNonEndChars()) {
+
+            // 初始化非终结符的状态
+            // 状态1表示还没找过
+            // 状态2表示正在查找
+            // 状态3表示已经结束查找
+            status.put(character, 1);
+
             String[] rightItems = grammar.getP().get(character);
             for (String item : rightItems) {
                 // 获取符号列表
@@ -181,17 +193,25 @@ public class LL1Analysis {
         }
 
         for (String character : grammar.getNonEndChars()){
+            // 如果已经查找完，就跳过
+            if (status.get(character) == 3){
+                continue;
+            }
+
             FOLLOWx(character);
         }
     }
 
     // 递归地计算非终结符的FOLLOW集合
     private Set<String> FOLLOWx(String x){
+        // 首先置当前查找的非终结符的状态为正在查找
+        status.put(x, 2);
+
         // 在产生式中搜索所有非终结符出现的位置
         for (String character : grammar.getNonEndChars()){
             String[] rightItems = grammar.getP().get(character);
 
-            for (String item : rightItems){
+            RightItemLoop:for (String item : rightItems){
                 // 获取符号列表
                 List<String> cList = grammar.disassemble(item);
 
@@ -213,6 +233,12 @@ public class LL1Analysis {
                                     if (nextFirst.contains("NULL")){
                                         // 判断是否是最后一个符号
                                         if (j == cList.size() - 1){
+                                            // 这里首先判断一下要递归查找的非终结符的状态
+                                            // 如果为正在查找，就会陷入死循环
+                                            // 所以要略过这一条产生式
+                                            if (status.get(character) == 2){
+                                                continue RightItemLoop;
+                                            }
                                             Set<String> leftFOLLOW = FOLLOWx(character);
                                             Set<String> nextFirstExceptNULL = new HashSet<>(nextFirst);
                                             nextFirstExceptNULL.remove("NULL");
@@ -237,9 +263,16 @@ public class LL1Analysis {
                         }
                         // 如果在最右边，将FOLLOW（左部）加入到当前非终结符的FOLLOW集合
                         else{
-                            // 首先判断当前的非终结符和左部是否相等，如果相等，break
-                            if (character.equals(x)){
-                                break;
+//                            // 首先判断当前的非终结符和左部是否相等，如果相等，break
+//                            if (character.equals(x)){
+//                                break;
+//                            }
+
+                            // 这里首先判断一下要递归查找的非终结符的状态
+                            // 如果为正在查找，就会陷入死循环
+                            // 所以要略过这一条产生式
+                            if (status.get(character) == 2){
+                                continue RightItemLoop;
                             }
                             Set<String> leftFOLLOW = FOLLOWx(character);
                             addCharsToFOLLOW(leftFOLLOW, x);
@@ -249,6 +282,8 @@ public class LL1Analysis {
             }
         }
 
+        // 如果return，说明已经查找完
+        status.put(x, 3);
         return FOLLOW.get(x);
     }
 
@@ -371,6 +406,16 @@ public class LL1Analysis {
         };
         // 开始符号
         String S = "C";
+
+//        String[] Vn = {"S", "S'", "F", "F'"};
+//        String[] Vt = {"a", "+", "NULL", "*"};
+//        String S = "S";
+//        String[] P = {
+//                "S->aFS'|+aFS'",
+//                "S'->+aFS'|NULL",
+//                "F->*aF'",
+//                "F'->F|NULL"
+//        };
 
         Grammar grammar = new Grammar(Vn, Vt, P, S);
 
