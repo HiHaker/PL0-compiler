@@ -89,6 +89,7 @@ public class Grammar {
 
         System.out.println("此文法的开始符号为: ");
         System.out.println(start);
+        System.out.println();
     }
 
     // 将字符串中的符号拆开

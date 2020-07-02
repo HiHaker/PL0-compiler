@@ -352,13 +352,13 @@ public class LL1Analysis {
 
         outer:for (String P1 : SELECT.keySet()){
 
-            String left1 = P1.substring(0,1);
-            Set<String> set1 = SELECT.get(P1);
+            String left1 = P1.split("->")[0].trim();
+            Set<String> set1 = new HashSet<>(SELECT.get(P1));
             Set<String> leftKeySet = new HashSet<>(SELECT.keySet());
             leftKeySet.remove(P1);
 
             for (String P2 : leftKeySet){
-                String left2 = P2.substring(0,1);
+                String left2 = P2.split("->")[0].trim();
                 // 如果两条产生式的左部相等的话
                 if (left1.equals(left2)){
                     Set<String> set2 = SELECT.get(P2);
@@ -379,30 +379,30 @@ public class LL1Analysis {
 
     public static void main(String[] args) {
         // 非终结符集合
-//        String[] Vn = {"S", "S\'", "B", "A"};
-        String[] Vn = {"C", "B", "E", "S", "D"};
+        String[] Vn = {"S", "S\'", "B", "A"};
+//        String[] Vn = {"C", "B", "E", "S", "D"};
 
         // 终结符集合
         // 这里定义空串为 NULL
-//        String[] Vt = {"a", "b", "e", "NULL"};
-        String[] Vt = {"i", "t", "e", "NULL", "a", "b", "+", "*"};
+        String[] Vt = {"a", "b", "e", "NULL"};
+//        String[] Vt = {"i", "t", "e", "NULL", "a", "b", "+", "*"};
 
         // 预定义产生式规则集合P
-//        String[] P = {
-//                "S->aBS\'",
-//                "S\'->bBS\'|NULL",
-//                "B->Ab|e",
-//                "A->a|NULL"
-//        };
         String[] P = {
-                "C->iEtSB",
-                "B->NULL|eS",
-                "E->a|b",
-                "S->aD",
-                "D->+b|*b"
+                "S->aBS\'",
+                "S\'->bBS\'|NULL",
+                "B->Ab|e",
+                "A->a|NULL"
         };
+//        String[] P = {
+//                "C->iEtSB",
+//                "B->NULL|eS",
+//                "E->a|b",
+//                "S->aD",
+//                "D->+b|*b"
+//        };
         // 开始符号
-        String S = "C";
+        String S = "S";
 //
 //        String[] Vn = {"S", "S'", "P", "P'"};
 //        String[] Vt = {"a", "+", "NULL", "q", "b"};
