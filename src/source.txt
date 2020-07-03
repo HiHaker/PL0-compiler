@@ -14,5 +14,5 @@ begin
           n := n + 1;
           f := f * n;
      end;
-     call print;// 用于输出结果，假设预先声明
+     write(f);// 用于输出结果，假设预先声明
 end.
